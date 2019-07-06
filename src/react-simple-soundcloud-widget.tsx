@@ -10,6 +10,8 @@ export interface ReactSimpleSoundCloudWidgetProps {
 	config?: ConfigType
 	onPlay?: (info: InfoType) => void
 	onPause?: (info: InfoType) => void
+	onPlayProgress?: (info: InfoType) => void
+	onSeek?: (info: InfoType) => void
 	onEnd?: (info: InfoType) => void
 	onReady?: () => void
 }
@@ -46,6 +48,8 @@ class ReactSimpleSoundCloudWidget extends React.Component<
 		if (!this.internalWidget) return
 		this.internalWidget.unbind(win.SC.Widget.Events.PLAY)
 		this.internalWidget.unbind(win.SC.Widget.Events.PAUSE)
+		this.internalWidget.unbind(win.SC.Widget.Events.PLAY_PROGRESS)
+		this.internalWidget.unbind(win.SC.Widget.Events.SEEK)
 		this.internalWidget.unbind(win.SC.Widget.Events.FINISH)
 		this.internalWidget.unbind(win.SC.Widget.Events.READY)
 	}
@@ -55,6 +59,8 @@ class ReactSimpleSoundCloudWidget extends React.Component<
 		this.internalWidget = widget
 		this.internalWidget.bind(win.SC.Widget.Events.PLAY, this.props.onPlay)
 		this.internalWidget.bind(win.SC.Widget.Events.PAUSE, this.props.onPause)
+		this.internalWidget.bind(win.SC.Widget.Events.PLAY_PROGRESS, this.props.onPlayProgress)
+		this.internalWidget.bind(win.SC.Widget.Events.SEEK, this.props.onSeek)
 		this.internalWidget.bind(win.SC.Widget.Events.FINISH, this.props.onEnd)
 		this.internalWidget.bind(win.SC.Widget.Events.READY, this.props.onReady)
 	}
@@ -83,6 +89,8 @@ ReactSimpleSoundCloudWidget.defaultProps = {
 	config: {},
 	onPlay: () => {},
 	onPause: () => {},
+	onSeek: () => {},
+	onPlayProgress: () => {},
 	onEnd: () => {}
 }
 
